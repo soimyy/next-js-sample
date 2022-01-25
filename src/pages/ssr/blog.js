@@ -18,7 +18,7 @@ const Blog = ({ posts }) => {
 
 /**
  */
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const res = await fetch(`${baseUrl}/posts`)
   const posts = await res.json()
 
