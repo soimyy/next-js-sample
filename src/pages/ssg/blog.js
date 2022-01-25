@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useEffect } from 'react/cjs/react.development'
 
 /**
  */
@@ -8,13 +9,20 @@ const baseUrl = 'https://jsonplaceholder.typicode.com'
  */
 const Blog = ({ posts }) => {
   const [keyword, setKeyWord] = useState(null)
+  const [filteredPosts, setFilteredPosts] = useState(posts)
+
   const handler = (e) => {
     setKeyWord(e.target.value)
   }
 
-  const filtered = keyword
-    ? posts.filter((post) => post.title.indexOf(`${keyword}`) != -1)
-    : posts
+  useEffect(() => {
+    setFilteredPosts(filterPosts(keyword))
+  }, [keyword])
+
+  const filterPosts = (keyword) =>
+    keyword
+      ? posts.filter((post) => post.title.indexOf(`${keyword}`) != -1)
+      : posts
 
   return (
     <>
@@ -25,7 +33,7 @@ const Blog = ({ posts }) => {
         }}
       />
       <ul>
-        {filtered.map((post) => (
+        {filteredPosts.map((post) => (
           <li key={post.id}>{post.title}</li>
         ))}
       </ul>
